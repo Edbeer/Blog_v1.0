@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Category(models.Model):
@@ -33,6 +34,9 @@ class Post(models.Model):
     is_published = models.BooleanField(default=True)
     category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='posts')
     tags = models.ManyToManyField(Tag, related_name='posts', blank=True)
+
+    def get_deferred_fields(self):
+        return reverse('post', kwargs={'slug': self.slug})
 
     def __str__(self):
         return self.title
