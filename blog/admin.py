@@ -34,7 +34,15 @@ class PostAdmin(admin.ModelAdmin):
     get_photo.short_description = 'IMG'
 
 
+class CategoryAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('title',)}
+
+
+class TagAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('title',)}
+
+
 admin.site.register(Post, PostAdmin)
-admin.site.register(Category)
-admin.site.register(Tag)
+admin.site.register(Category, CategoryAdmin)
+admin.site.register(Tag, TagAdmin)
 
