@@ -1,0 +1,9 @@
+<div class="col-full tags">
+  <h3>Tags</h3>
+  <!---->
+  <div class="tagcloud">
+    {% for tag in tags %}
+    <a href="{{ tag.get_absolute_url }}">{{ tag.title }}</a>
+    {% endfor %}
+  </div> <!-- end tagcloud -->
+</div> <!-- end tags -->
