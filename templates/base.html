@@ -53,18 +53,21 @@
             </div> <!-- end header__logo -->
 
             <ul class="header__social">
+                {% if request.user.is_authenticated %}
                 <li>
-                    <a href="#0"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                    Welcome, {{ user.username }}
                 </li>
                 <li>
-                    <a href="#0"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                    <a href="{% url 'logout' %}">Logout</a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="{% url 'login' %}">Login</a>
                 </li>
                 <li>
-                    <a href="#0"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                    <a href="{% url 'register' %}">Register</a>
                 </li>
-                <li>
-                    <a href="#0"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
-                </li>
+                {% endif %}
             </ul> <!-- end header__social -->
 
             <a class="header__search-trigger" href="#0"></a>
@@ -199,13 +202,32 @@
     </div> <!-- end pageheader-content row -->
 
 </section> <!-- end s-pageheader -->
+<section class="s-content">
+{% if messages %}
 
+    {% for message in messages %}
+
+        {% if message.tags == 'error' %}
+                <div class="alert-box alert-box--error hideit">
+                    <p>{{ message }}</p>
+                    <i class="fa fa-times alert-box__close"></i>
+                </div> <!-- end error -->
+        {% else %}
+                <div class="alert-box alert-box--{{ message.tags }} hideit">
+                    <p>{{ message }}</p>
+                    <i class="fa fa-times alert-box__close"></i>
+                </div> <!-- end error -->
+        {% endif %}
+
+    {% endfor %}
+
+{% endif %}
 
 {% block content %}
 
 
 {% endblock %}
-
+</section>
 <!-- s-extra
 ================================================== -->
 <section class="s-extra">
