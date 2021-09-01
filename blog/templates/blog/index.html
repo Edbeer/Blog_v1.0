@@ -1,1 +1,84 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block content %}
+<!-- s-content
+================================================== -->
+<section class="s-content">
+
+    <div class="row masonry-wrap">
+        <div class="masonry">
+
+            <div class="grid-sizer"></div>
+            {% for post in posts %}
+            <article class="masonry__brick entry format-quote" data-aos="fade-up">
+
+                <div class="entry__thumb">
+                    <a href="{{ post.get_absolute_url }}" class="entry__thumb-link">
+                        {% if post.photo %}
+                        <img src="{{ post.photo.url }}"
+                             srcset="{{ post.photo.url }}" alt="">
+                        {% else %}
+                        <img src="{% static 'images/thumbs/masonry/lamp-400.jpg' %}"
+                             srcset="{% static 'images/thumbs/masonry/lamp-400.jpg' %}" alt="">
+                        {% endif %}
+                    </a>
+                </div>
+
+                <div class="entry__text">
+                    <div class="entry__header">
+
+                        <div class="entry__date">
+                            <a href="{{ post.get_absolute_url }}">{{ post.created_at|date:"Y.m.d" }}</a>
+                        </div>
+                        <h1 class="entry__title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h1>
+
+                    </div>
+                    <div class="entry__excerpt">
+                        <p>
+                            {{ post.content|safe|truncatewords_html:20 }}
+                        </p>
+                    </div>
+                    <div class="entry__meta">
+                            <span class="entry__meta-links">
+                                <a href="{{ category.get_absolute_url }}">{{ post.category }}</a>
+                            </span>
+                    </div>
+                </div>
+
+            </article> <!-- end article -->
+            {% endfor %}
+
+        </div> <!-- end masonry -->
+    </div> <!-- end masonry-wrap -->
+
+    {% if page_obj.has_other_pages %}
+    <div class="row">
+        <div class="col-full">
+            <nav class="pgn">
+                <ul>
+                    {% if page_obj.has_previous %}
+                    <li><a class="pgn__prev" href="?page={{ page_obj.previous_page_number }}">Prev</a></li>
+                    {% endif %}
+                    {% for p in page_obj.paginator.page_range %}
+                        {% if p > page_obj.number|add:-5 and p < page_obj.number|add:5 %}
+                        {% if p == page_obj.number %}
+                        <li><a class="pgn__num current" href="?page={{ p }}">{{ p }}</a></li>
+                        {% else %}
+                        <li><a class="pgn__num" href="?page={{ p }}">{{ p }}</a></li>
+                        {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                    <li><a class="pgn__next" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+    {% endif %}
+
+</section> <!-- s-content -->
+{% endblock %}
