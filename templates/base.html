@@ -3,6 +3,7 @@
 {% load tags %}
 {% load popular %}
 {% load menu %}
+{% load cache %}
 <html class="no-js" lang="en">
 <head>
 
@@ -100,7 +101,9 @@
                     <li class="has-children">
                         <a href="#0" title="">Categories</a>
                         <ul class="sub-menu">
-                            {% show_menu %}
+                            {% cache 30 menu %}
+                                {% show_menu %}
+                            {% endcache %}
                         </ul>
                     </li>
                     <li class="has-children">
@@ -224,11 +227,12 @@
     {% endfor %}
 
 {% endif %}
+{% cache 30 content %}
+        {% block content %}
 
-{% block content %}
 
-
-{% endblock %}
+        {% endblock %}
+{% endcache %}
 </section>
 <!-- s-extra
 ================================================== -->
@@ -240,8 +244,9 @@
             <h3>Popular Posts</h3>
 
             <div class="block-1-2 block-m-full popular__posts">
-                {% show_popular 6 %}
-
+                {% cache 30 popular %}
+                    {% show_popular 6 %}
+                {% endcache %}
             </div> <!-- end popular_posts -->
         </div> <!-- end popular -->
 
@@ -271,7 +276,9 @@
     </div> <!-- end row -->
 
     <div class="row bottom tags-wrap">
+        {% cache 30 tags %}
         {% get_tags %}
+        {% endcache %}
     </div> <!-- end tags-wrap -->
 
 </section> <!-- end s-extra -->
