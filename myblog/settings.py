@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'ckeditor',
     'authorization.apps.AuthorizationConfig',
+    'captcha',
 ]
 
 MIDDLEWARE = [
@@ -206,3 +207,6 @@ CKEDITOR_CONFIGS = {
         ]),
     }
 }
+
+CAPTCHA_LETTER_ROTATION = None
+CAPTCHA_NOISE_FUNCTIONS = None
